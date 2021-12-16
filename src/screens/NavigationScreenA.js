@@ -76,6 +76,21 @@ const NavigationScreenA = ({navigation, route}) => {
         style={{marginTop: 5, width: 350}}
         onPress={() => navigation.navigate('SQLiteLogin')}
       />
+      <ButtonRA
+        title={'StudentScreen'}
+        // color={'#8abbec'}
+        color={'#defaab'}
+        style={{marginTop: 5, width: 350}}
+        onPress={() => navigation.navigate('StudentScreen')}
+      />
+      <ButtonRA
+        title={'UserScreen'}
+        // color={'#8abbec'}
+        color={'#defaab'}
+        style={{marginTop: 5, width: 350}}
+        onPress={() => navigation.navigate('UserScreen')}
+      />
+
       {/* <ButtonRA
         title={'replace(заміна) ScreenB'}
         color={'#8abbec'}

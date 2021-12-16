@@ -26,16 +26,20 @@ const SQLiteHome = ({navigation, route}) => {
     getData();
   }, []);
 
-  const getData = async () => {
+  const getData = () => {
     try {
-      await db.transaction(async tx => {
-        await tx.executeSql(
-          //  'SELECT Name. Age FROM Users WHERE ID=1',
-          'SELECT Name, Age FROM Users',
+      db.transaction(tx => {
+        console.log('SQLiteHome/len=');
+        tx.executeSql(
+          // 'SELECT Name. Age FROM Users WHERE ID=1',
+          'SELECT Name, Age FROM Users1',
+          // 'SELECT * FROM Users',
           [],
           (tx, results) => {
             var len = results.rows.length;
+            console.log('SQLiteHome/len=', len);
             if (len > 0) {
+              // results.rows.item(i);
               var userName = results.rows.item(0).Name;
               var userAge = results.rows.item(0).Age;
               setName(userName);

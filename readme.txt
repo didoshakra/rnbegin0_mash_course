@@ -5,10 +5,20 @@ https://www.youtube.com/watch?v=ANdSdIlgsEw&ab_channel=ProgrammingwithMash
 //26.11.2021 //https://reactnavigation.org/docs/getting-started/
   *** переключення між екранами
     npm install @react-navigation/native
-    npm install @react-navigation/native-stack
+    ----------------------------------------------------------------------------
+    npm install react-native-safe-area-context  // !!! Без неї -помилка
+    npm install react-native-screens            // !!! Без неї -помилка
+    // ERROR  Invariant Violation: requireNativeComponent: "RNSScreenStackHeaderConfig" was not found in the UIManager.
+
+---------------------------------------------------------------------------------
+* Stack Navigator //https://reactnavigation.org/docs/stack-navigator/
+    npm install @react-navigation/stack
+    npm install react-native-gesture-handler
+    npm install @react-native-masked-view/masked-view
+
 ------------------------------------------------------------------------------------------
-* Stack Navigator/ Stack.Navigator //https://reactnavigation.org/docs/stack-navigator
-    npm install react-native-screens react-native-safe-area-context
+* Native Stack Navigator https://reactnavigation.org/docs/native-stack-navigator
+    npm install @react-navigation/native-stack
 ------------------------------------------------------------------------------------------
 * Bottom Tabs Navigator/ Tab.Navigator //https://reactnavigation.org/docs/tab-based-navigation/
     npm i @react-navigation/bottom-tabs

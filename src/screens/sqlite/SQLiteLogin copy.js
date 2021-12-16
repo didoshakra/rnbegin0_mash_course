@@ -21,12 +21,27 @@ var db = openDatabase({name: 'MainDB.db'});
 const SQLiteLogin = ({navigation}) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
-
   useEffect(() => {
     createTable();
     // getData();
   }, []);
 
+  //=================
+  ExecuteQuery = (sql, params = []) =>
+    new Promise((resolve, reject) => {
+      db.transaction(trans => {
+        trans.executeSql(
+          sql,
+          params,
+          (trans, results) => {
+            resolve(results);
+          },
+          error => {
+            reject(error);
+          },
+        );
+      });
+    });
   //==================
   // const createTable = () => {
   // db.transaction(tx => {
@@ -38,31 +53,13 @@ const SQLiteLogin = ({navigation}) => {
   // });
   // };
 
-  // const createTable = async () => {
-  //   await ExecuteQuery(
-  //     'CREATE TABLE IF NOT EXISTS Users1 (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER)',
-  //     [],
-  //   );
-  // };
-  const createTable = () => {
-    db.transaction(function (txn) {
-      txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='Users'",
-        [],
-        function (tx, res) {
-          console.log('item:', res.rows.length);
-          if (res.rows.length == 0) {
-            txn.executeSql('DROP TABLE IF EXISTS Users', []);
-            txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS Users1 (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER)',
-              [],
-            );
-          }
-        },
-      );
-    });
-    // Alert.alert('SQLite Database and Table Successfully Created...');
+  const createTable = async () => {
+    await ExecuteQuery(
+      'CREATE TABLE IF NOT EXISTS Users1 (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER)',
+      [],
+    );
   };
+
   const getData = async () => {
     try {
       // // const value = await AsyncStorage.getItem('UserName'); //рядок
@@ -75,6 +72,8 @@ const SQLiteLogin = ({navigation}) => {
       await db.transaction(async tx => {
         console.log('SQLiteLogin/getData');
         await tx.executeSql(
+          //  'SELECT Name. Age FROM Users WHERE ID=1',
+          // 'SELECT Name, Age FROM Users ',
           'SELECT Name, Age FROM Users ',
           [],
           (tx, results) => {
@@ -102,7 +101,7 @@ const SQLiteLogin = ({navigation}) => {
         // await db.transaction(async tx => {
         db.transaction(function (tx) {
           tx.executeSql(
-            'INSERT INTO Users (Name,Age) Value (?,?)',
+            'INSERT INTO Users1 (Name,Age) Value (?,?)',
             [name, age],
             (tx, results) => {
               console.log('Results', results.rowsAffected);

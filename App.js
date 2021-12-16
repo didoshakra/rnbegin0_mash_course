@@ -2,7 +2,8 @@ import * as React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 // import {RootNavigator} from './src/navigators/RootNavigator';//Робоча
-import {RootNavigator} from './src/navigators/RootNavigatorStack.js';//Stack
+import {RootNavigator} from './src/navigators/RootNavigatorStack'; //Stack
+// import {RootNavigator} from './src/navigators/RootNavigatorNativeStack';//NativeStack
 // import {RootNavigator} from './src/navigators/RootNavigatorBottomTabs';//Нижні вкладки
 // import {RootNavigator} from './src/navigators/RootNavigatorMaterialBottomTabs';//Material нижні вкладки
 // import {RootNavigator} from './src/navigators/RootNavigatorMaterialTopTabs';//Material верхні вкладки
