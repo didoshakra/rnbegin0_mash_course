@@ -162,6 +162,7 @@ export function EditRecordScreen({route, navigation}) {
   };
 
   const deleteRecord = () => {
+    console.log('deleteRecord/Results', results.rowsAffected);
     db.transaction(tx => {
       tx.executeSql(
         'DELETE FROM Student_Table where student_id=?',

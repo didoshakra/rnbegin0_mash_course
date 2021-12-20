@@ -1,14 +1,6 @@
 //SQLiteLogin.js
 import React, {useState, useEffect} from 'react';
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import SQLite from 'react-native-sqlite-storage';
 import {openDatabase} from 'react-native-sqlite-storage';
@@ -26,20 +18,20 @@ const SQLiteLogin = ({navigation}) => {
 
   useEffect(() => {
     createTable();
-    getData();
+    // getData();
   }, []);
 
   const createTable = () => {
     db.transaction(function (txn) {
       txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='Users'",
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='User_Table'",
         [],
         function (tx, res) {
           console.log('UserScreen/createTable/item:', res.rows.length);
           if (res.rows.length == 0) {
-            txn.executeSql('DROP TABLE IF EXISTS Users', []);
+            txn.executeSql('DROP TABLE IF EXISTS User_Table', []);
             txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(30), user_age INT(10))',
+              'CREATE TABLE IF NOT EXISTS User_Table(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(30), user_age INT(10))',
               [],
             );
           }
@@ -56,7 +48,7 @@ const SQLiteLogin = ({navigation}) => {
       console.log('SQLiteLogin/insertData/name=', name + '/age=', age);
       db.transaction(function (tx) {
         tx.executeSql(
-          'INSERT INTO Users (user_name, user_age) VALUES (?,?)',
+          'INSERT INTO User_Table (user_name, user_age) VALUES (?,?)',
           [name, age],
           (tx, results) => {
             console.log(
@@ -81,7 +73,7 @@ const SQLiteLogin = ({navigation}) => {
         // 'SELECT Name, Age FROM Users ',
         // await tx.executeSql('SELECT * FROM Users ', [], (tx, results) => {
         // await tx.executeSql('SELECT * FROM User ', [], (tx, results) => {
-        await tx.executeSql('SELECT * FROM Users ', [], (tx, results) => {
+        await tx.executeSql('SELECT * FROM User_Table ', [], (tx, results) => {
           console.log('SQLiteLogin/getData/results=', results);
           // var len = results.rows.length;
           let len = results.rows.length;
@@ -163,9 +155,9 @@ const SQLiteLogin = ({navigation}) => {
         title={'Login'}
         color={'#1eb900'}
         style={{marginTop: 5}}
+        // onPress={setData}
         onPress={insertData}
       />
-     
     </View>
   );
 };

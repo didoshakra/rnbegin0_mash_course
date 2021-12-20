@@ -14,9 +14,8 @@ import {openDatabase} from 'react-native-sqlite-storage';
 
 const NameDB = 'SchoolDatabase.db';
 // const NameDB = 'MainDB.db';
-// var db = openDatabase({name: 'SchoolDatabase.db'});
-// var db = openDatabase({name: 'MainDB.db'});
-var db = openDatabase({name: NameDB});
+
+const db = openDatabase({name: NameDB});
 
 export function ViewAllUserScreen({navigation}) {
   const [items, setItems] = useState([]); //Масив з запиту
@@ -30,15 +29,18 @@ export function ViewAllUserScreen({navigation}) {
     // Якщо є 2-й параметр [props.source], буде спрацьовувати тільки при зміні цих параметрів
   }, [isFocused]);
   // const getData = async () => {
-  const getData = async() => {
+  const getData = async () => {
     await db.transaction(async tx => {
       try {
         await tx.executeSql('SELECT * FROM User_Table', [], (tx, results) => {
+          console.log(
+            'UserScreen/get/results.rows.item(0)=',
+            results.rows.item(0),
+          );
           var temp = [];
           for (let i = 0; i < results.rows.length; ++i)
             temp.push(results.rows.item(i));
           setItems(temp);
-          console.log('UserScreen/get/results=', results);
           if (results.rows.length >= 1) {
             setEmpty(false);
           } else {
@@ -195,7 +197,7 @@ export default function UserScreen({navigation}) {
         "SELECT name FROM sqlite_master WHERE type='table' AND name='User_Table'",
         [],
         function (tx, res) {
-          console.log('item:', res.rows.length);
+          console.log('UserScreen/createTable/item:', res.rows.length);
           if (res.rows.length == 0) {
             txn.executeSql('DROP TABLE IF EXISTS User_Table', []);
             txn.executeSql(
@@ -218,8 +220,11 @@ export default function UserScreen({navigation}) {
           'INSERT INTO User_Table (user_name, user_phone, user_address) VALUES (?,?,?)',
           [S_Name, S_Phone, S_Address],
           (tx, results) => {
-            console.log('results.rowsAffected=', results.rowsAffected);
-            console.log('Results=', results);
+            console.log(
+              'UserScreen/insertData/results.rowsAffected=',
+              results.rowsAffected,
+            );
+            console.log('UserScreen/insertData/Results=', results);
             if (results.rowsAffected > 0) {
               Alert.alert('Data Inserted Successfully..rr');
             } else Alert.alert('Failed....');
